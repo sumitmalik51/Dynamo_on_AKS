@@ -14,7 +14,7 @@ End-to-end tutorials for running [NVIDIA Dynamo](https://github.com/ai-dynamo/dy
 |---|------|----------|--------|
 | 1 | [Autoscaling Aggregated Serving with KEDA](#1-autoscaling-aggregated-serving-with-keda) | Metric-driven HPA via KEDA + Prometheus TTFT | ✅ Complete |
 | 2 | [Autoscaling Disaggregated Serving with Dynamo Planner](#2-autoscaling-disaggregated-serving-with-dynamo-planner) | Disaggregated Prefill/Decode with Dynamo planner | 🚧 In Progress |
-| 3 | [KV Cache Routing](#3-kv-cache-routing) | Intelligent KV cache-aware request routing | 🚧 In Progress |
+| 3 | [KV Cache Routing](#3-kv-cache-routing) | Intelligent KV cache-aware request routing | ✅ Complete |
 
 ---
 
@@ -104,16 +104,19 @@ Client → LoadBalancer :8000
 
 ### 3. KV Cache Routing
 
-> **Status: 🚧 In Progress**
+**Folder:** [`kv_cache_routing/`](./kv_cache_routing/)
 
 **What it demonstrates:**
 
 Implements **KV cache-aware request routing** to maximize KV cache reuse across Decode Worker pods. Requests with overlapping prompt prefixes are steered to the worker that already holds the relevant KV cache blocks, reducing redundant computation and improving throughput.
 
-**Key concepts:**
-- Prefix-aware load balancing for LLM inference
-- Reduced KV cache eviction under high-concurrency workloads
-- Grafana dashboards for cache hit rate and routing efficiency
+**Results preview:**
+
+Using 6 NC-H100 GPUs with horizontal scaling, KV-routing shows a clear improvement in both latency and throughput compared to the non–KV-routing setup. With KV-routing enabled, the average time to first token drops significantly (≈1.5s vs ≈18.8s), and overall request latency improves by nearly 3× (≈11s vs ≈30s). 
+
+
+> See [kv_cache_routing/dynamo-kv-routing.ipynb](./kv_cache_routing/dynamo-kv-routing.ipynb) for the full step-by-step guide.
+
 
 ---
 
